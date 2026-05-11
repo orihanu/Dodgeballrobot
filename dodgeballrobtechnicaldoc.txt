@@ -1,0 +1,15 @@
+LCD Module
+
+The LCD module is implemented on the Arduino side using the LiquidCrystal library. It is initialized in the setup stage and is used to display the current state of the robot. Based on the command received from the computer vision program, the LCD text is updated to show statuses such as system ready, ball detected, safe mode, or dodge command.
+
+Image Processing Module
+
+The image processing part is developed in Python using OpenCV and NumPy. The webcam is opened using VideoCapture, and each frame is processed inside a continuous loop. The frame is first blurred to reduce noise, then converted from BGR to HSV color space for more reliable color-based ball detection.
+
+Ball Detection and Tracking
+
+The ball is detected by applying an HSV color threshold to create a mask. Morphological operations such as erosion and dilation are used to clean the mask and remove small unwanted noise. Then, contours are extracted from the mask, and the largest contour is selected as the ball. The bounding rectangle and center point of the ball are calculated to track its position in the frame.
+
+Decision Making and Arduino Communication
+
+The program compares the ball’s current position with its previous position to estimate movement direction and trajectory. If the ball appears to be moving toward the robot, a dodge command is generated. This command is sent from Python to Arduino through serial communication. The Arduino then updates the LCD and can trigger the movement mechanism.
